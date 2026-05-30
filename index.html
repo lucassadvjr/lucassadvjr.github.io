@@ -1,42 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://lucassadvjr.github.io/src/css/style.css" rel="stylesheet">
-    <title>E-book learning magic</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Timer</title>
 
-<body>
-    <header class="cabecalho">
-        <!--- Inserir logo aqui --->
-    </header>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <main class="pomodoro">
+      <header class="pomodoro-header">
+        <h1>Pomodoro Timer</h1>
+        <p>Gerencie seus ciclos de foco e descanso</p>
+      </header>
+      <div class="mode-selector">
+    <button class="active">Foco</button>
+    <button>Pausa Curta</button>
+    <button>Pausa Longa</button>
+</div>
 
-    <section class="conteudotopo">
-        <h1 class="titulo1">Visualize agora mesmo o E-book<br>desenvolvimento feitiend para INICIANTES</h1>
-        <figure class="imagemsite">
-            <img src="src/img/harrybook.jpg" alt="harrytec">
+      <section class="timer-container">
+        <!-- Tempo de trabalho -->
+        <article class="timer-card work-card">
+          <h2 id="timeof">Trabalho</h2>
+
+          <div
+            id="timer-work"
+           class="timer-circle""
+            aria-label="Tempo de trabalho"
+          >
+            25:00
+          </div>
+          <span>Foco</span>
+
+          <div class="timer-controls">
+            <button
+              id="work-decrease"
+              type="button"
+              aria-label="Diminuir tempo de trabalho"
+            >
+              -
+            </button>
             
-        </figure>
-        <br>
-        <a href="https://drive.google.com/file/d/1ORSJ5ADbpGuOrjv9SMa78ruy8SRCzIIy/view?usp=drivesdk" target="_blank"><button>visualizar PDF</button></a>
-        <br>
-        <br>
 
-        <figure><img id="professor" src="src/img/professor.jpg" alt="professor"></figure>
-        <h2>Prof. Albus Percival Wulfric Brian Dumbledore</h2>
-        <br>
-        <p>Formado em Analise de Magia e Pós em Espectro Patrono🧙‍♂️</p>
-        <p>Com mais de 100 anos de experiência no ramo da educação.</p>
-        <p>Aproveite a oportunidade </p>
-        <h3 id="atencao">POR APENAS 3 X 99,90 GALEÕES<br>ESTÁ OFERTA SE EXPIRA APÓS O ENIGMA DO PRÍNCIPE</h3>
+            <button
+              id="work-increase"
+              type="button"
+              aria-label="Aumentar tempo de trabalho"
+            >
+              +
+            </button>
+          </div>
+        </article>
+
+        <!-- Tempo de descanso -->
+        <article class="timer-card break-card">
+          <h2>Descanso</h2>
+
+          <div
+            id="timer-break"
+            class="timer-display"
+            aria-label="Tempo de descanso"
+          >
+            
+          </div>
+
+          <div class="timer-controls">
+            <button
+              id="break-decrease"
+              type="button"
+              aria-label="Diminuir tempo de descanso"
+            >
+              -
+            </button>
+
+            <button
+              id="break-increase"
+              type="button"
+              aria-label="Aumentar tempo de descanso"
+            >
+              +
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section class="actions">
+        <button id="start-button">
+            ▶ Iniciar
+        </button>
+        
+
+        <button id="reset-button" class="action-button reset" type="button">
+          Reiniciar
+        </button>
+      </section>
+    </main>
+    <section class="playlist-section">
+        <h2>🎵 Playlists para Estudar</h2>
+
+        <div class="playlist-grid">
+            <div class="playlist-card">
+                <img src="img/lofi.jpg">
+                <span>Lofi Hip Hop</span>
+            </div>
+
+            <div class="playlist-card">
+                <img src="img/classica.jpg">
+                <span>Música Clássica</span>
+            </div>
+        </div>
     </section>
-    
-    <footer>
-        <hgroup>
-            <h3>Lucas Aprendiz de feit...programador</h3>
-            <h4>Desenvolvido com intuito de pratica e fixação de conhecimento</h4>
-        </hgroup>
-    </footer>
-</body>
+
+    <script src="assets/script.js"></script>
+  </body>
 </html>
