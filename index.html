@@ -3,114 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pomodoro Timer</title>
-
+    <title>Pomodoro Timer com YouTube Player</title>
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
-    <main class="pomodoro">
-      <header class="pomodoro-header">
-        <h1>Pomodoro Timer</h1>
-        <p>Gerencie seus ciclos de foco e descanso</p>
-      </header>
-      <div class="mode-selector">
-    <button class="active">Foco</button>
-    <button>Pausa Curta</button>
-    <button>Pausa Longa</button>
-</div>
-
-      <section class="timer-container">
-        <!-- Tempo de trabalho -->
-        <article class="timer-card work-card">
-          <h2 id="timeof">Trabalho</h2>
-
-          <div
-            id="timer-work"
-           class="timer-circle""
-            aria-label="Tempo de trabalho"
-          >
-            25:00
+    <div class="main-container">
+      <!-- SEÇÃO POMODORO -->
+      <main class="pomodoro">
+        <header class="pomodoro-header">
+          <h1>🍅 Pomodoro Timer</h1>
+          <p>Gerencie seus ciclos de foco e descanso</p>
+          <div class="mode-selector">
+            <button id="foco" class="active">Foco</button>
+            <button id="pausa_curta">Pausa Curta: 5 min</button>
+            <button id="pausa_longa">Pausa Longa: 10 min</button>
           </div>
-          <span>Foco</span>
+        </header>
 
-          <div class="timer-controls">
-            <button
-              id="work-decrease"
-              type="button"
-              aria-label="Diminuir tempo de trabalho"
+        <section class="timer-container">
+          <article class="timer-card work-card">
+            <h2 id="timeof">Trabalho</h2>
+            <div
+              id="timer-work"
+              class="timer-circle"
+              aria-label="Tempo de trabalho"
             >
-              -
-            </button>
-            
+              25:00
+            </div>
+            <span>⚡ Foco</span>
+            <div class="timer-controls">
+              <button id="work-decrease" type="button">-</button>
+              <span id="work-label" class="time-label">25 min</span>
+              <button id="work-increase" type="button">+</button>
+            </div>
+          </article>
 
-            <button
-              id="work-increase"
-              type="button"
-              aria-label="Aumentar tempo de trabalho"
+          <article class="timer-card break-card">
+            <h2>Descanso</h2>
+            <div
+              id="timer-break"
+              class="timer-display"
+              aria-label="Tempo de descanso"
             >
-              +
-            </button>
-          </div>
-        </article>
+              05:00
+            </div>
+            <span>☕ Relaxe</span>
+            <div class="timer-controls">
+              <button id="break-decrease" type="button">-</button>
+              <span id="break-label" class="time-label">5 min</span>
+              <button id="break-increase" type="button">+</button>
+            </div>
+          </article>
+        </section>
 
-        <!-- Tempo de descanso -->
-        <article class="timer-card break-card">
-          <h2>Descanso</h2>
+        <section class="actions">
+          <button id="start-button">▶ Iniciar</button>
+          <button id="reset-button" class="action-button reset" type="button">
+            ⟳ Reiniciar
+          </button>
+        </section>
+      </main>
 
-          <div
-            id="timer-break"
-            class="timer-display"
-            aria-label="Tempo de descanso"
-          >
-            
-          </div>
-
-          <div class="timer-controls">
-            <button
-              id="break-decrease"
-              type="button"
-              aria-label="Diminuir tempo de descanso"
-            >
-              -
-            </button>
-
-            <button
-              id="break-increase"
-              type="button"
-              aria-label="Aumentar tempo de descanso"
-            >
-              +
-            </button>
-          </div>
-        </article>
-      </section>
-
-      <section class="actions">
-        <button id="start-button">
-            ▶ Iniciar
-        </button>
-        
-
-        <button id="reset-button" class="action-button reset" type="button">
-          Reiniciar
-        </button>
-      </section>
-    </main>
-    <section class="playlist-section">
+      <!-- SEÇÃO PLAYLIST DO YOUTUBE COM INPUT PERSONALIZADO -->
+      <section class="playlist-section">
         <h2>🎵 Playlists para Estudar</h2>
 
-        <div class="playlist-grid">
-            <div class="playlist-card">
-                <img src="img/lofi.jpg">
-                <span>Lofi Hip Hop</span>
-            </div>
-
-            <div class="playlist-card">
-                <img src="img/classica.jpg">
-                <span>Música Clássica</span>
-            </div>
+        <!-- NOVA SEÇÃO: INPUT PARA LINK PERSONALIZADO -->
+        <div class="custom-playlist">
+          <h3>🔗 Ouça sua própria playlist</h3>
+          <div class="input-group">
+            <input
+              type="text"
+              id="playlist-url"
+              placeholder="Cole o link do YouTube (vídeo ou playlist)..."
+              class="url-input"
+            />
+            <button id="load-playlist-btn" class="load-btn">🎵 Carregar</button>
+          </div>
+          <p class="helper-text">
+            Suporta: links de vídeo, playlists e canais do YouTube
+          </p>
         </div>
-    </section>
+
+        <div class="divider">
+          <span>ou escolha uma categoria</span>
+        </div>
+
+        <div class="playlist-categories">
+          <button class="category-btn active" data-category="lofi">
+            🎧 Lofi Hip Hop
+          </button>
+          <button class="category-btn" data-category="classical">
+            🎻 Música Clássica
+          </button>
+          <button class="category-btn" data-category="rock">
+            🤘 Rock Instrumental
+          </button>
+          <button class="category-btn" data-category="jazz">
+            🎷 Jazz Suave
+          </button>
+          <button class="category-btn" data-category="nature">
+            🌊 Sons da Natureza
+          </button>
+        </div>
+
+        <div class="playlist-container">
+          <div id="youtube-player"></div>
+        </div>
+
+        <div class="playlist-info">
+          <p id="current-playlist">🎵 Tocando: Lofi Hip Hop</p>
+        </div>
+      </section>
+    </div>
 
     <script src="assets/script.js"></script>
   </body>

@@ -4,138 +4,579 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background: #0d0d0d;
   color: #ffffff;
   font-family: "Inter", sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
-main {
+
+/* Container principal com flexbox - Pomodoro e Player lado a lado */
+.main-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
   min-height: 100vh;
+  width: 100%;
 }
 
-.pomodoro-container {
+/* Seção Pomodoro - ocupa 50% da tela */
+.pomodoro {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.timer-circle {
-  width: 280px;
-  height: 280px;
-  border: 8px solid #e5e5e5;
-  border-radius: 50%;
-
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-
-  margin: 2rem 0;
+  padding: 2rem;
+  overflow-y: auto;
+  min-width: 320px;
 }
 
-#timer-work {
-  font-size: 4rem;
-  font-weight: 300;
+/* Seção Playlist - ocupa 50% da tela */
+.playlist-section {
+  flex: 1;
+  background: rgba(13, 13, 13, 0.95);
+  padding: 2rem;
+  border-left: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-width: 320px;
 }
 
-.timer-circle span {
+/* Header do Pomodoro */
+.pomodoro-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pomodoro-header h1 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, #fff, #ff4757);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.pomodoro-header p {
   color: #aaa;
-  margin-top: 10px;
+  font-size: 0.9rem;
 }
 
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
+/* Seletor de modo */
 .mode-selector {
   display: flex;
   gap: 12px;
+  margin-top: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .mode-selector button {
   border: none;
   padding: 12px 24px;
   border-radius: 10px;
-
   background: #252525;
   color: white;
   cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+}
+
+.mode-selector button:hover {
+  background: #333;
 }
 
 .mode-selector .active {
   background: #ff4757;
 }
-#start-button {
-  background: white;
-  color: black;
-  border: none;
 
-  padding: 15px 40px;
-  border-radius: 12px;
-
-  font-size: 1rem;
-  font-weight: bold;
-
-  cursor: pointer;
-}
-#reset-button {
-  width: 60px;
-  height: 60px;
-
-  border: none;
-  border-radius: 12px;
-
-  background: #252525;
-  color: white;
-
-  cursor: pointer;
-}
-header {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  right: 30px;
-
+/* Container dos timers */
+.timer-container {
   display: flex;
-  justify-content: space-between;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* Cards dos timers */
+.timer-card {
+  background: rgba(37, 37, 37, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid #333;
+  min-width: 280px;
+}
+
+.timer-card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.work-card h2 {
+  color: #ff4757;
+}
+
+.break-card h2 {
+  color: #4ecdc4;
+}
+
+/* Círculo do timer de trabalho */
+.timer-circle {
+  width: 200px;
+  height: 200px;
+  border: 6px solid #ff4757;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem auto;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.header-actions {
+/* Display do timer de descanso */
+.timer-display {
+  width: 200px;
+  height: 200px;
+  border: 6px solid #4ecdc4;
+  border-radius: 50%;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem auto;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.header-actions button {
+.timer-card span {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* Controles dos timers */
+.timer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.timer-controls button {
   background: #252525;
-  color: white;
-
   border: none;
-  border-radius: 10px;
-
-  padding: 12px 18px;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.playlist-grid {
+.timer-controls button:hover {
+  background: #ff4757;
+  transform: scale(1.05);
+}
+
+.time-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-width: 60px;
+  color: white;
+}
+
+/* Botões de ação */
+.actions {
   display: flex;
-  gap: 20px;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
   flex-wrap: wrap;
 }
 
-.playlist-card {
-  width: 180px;
+#start-button {
+  background: linear-gradient(135deg, #ff4757, #ff6b7c);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+#start-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+#reset-button {
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #252525;
+  color: white;
+  padding: 15px 40px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#reset-button:hover {
+  background: #333;
+}
+
+/* ===== ESTILOS DA PLAYLIST ===== */
+.playlist-section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.playlist-categories {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.category-btn {
+  background: #252525;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.category-btn:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.category-btn.active {
+  background: #ff4757;
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+.playlist-container {
+  position: relative;
+  width: 100%;
   border-radius: 12px;
   overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#youtube-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.playlist-info {
+  text-align: center;
+  margin-top: 15px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+#current-playlist {
+  margin: 0;
+  display: inline-block;
+  padding: 5px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+}
+
+/* Card de descanso - começa escondido */
+.break-card {
+  display: none;
+}
+
+.work-card {
+  display: block;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 968px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .pomodoro {
+    min-height: auto;
+    padding: 1.5rem;
+  }
+
+  .playlist-section {
+    border-left: none;
+    border-top: 1px solid #333;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .timer-container {
+    gap: 1.5rem;
+  }
+
+  .timer-card {
+    min-width: 240px;
+    padding: 1.5rem;
+  }
+
+  .timer-circle,
+  .timer-display {
+    width: 160px;
+    height: 160px;
+    font-size: 2rem;
+  }
+
+  .category-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .mode-selector button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .timer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timer-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #start-button,
+  #reset-button {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pomodoro {
+    padding: 1rem;
+  }
+
+  .playlist-section {
+    padding: 1rem;
+  }
+
+  .timer-circle,
+  .timer-display {
+    width: 140px;
+    height: 140px;
+    font-size: 1.8rem;
+  }
+
+  .mode-selector {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .category-btn {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.timer-circle.active-timer,
+.timer-display.active-timer {
+  animation: pulse 1s infinite;
+}
+
+/* ===== SCROLLBAR PERSONALIZADA ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
   background: #1a1a1a;
 }
 
-.playlist-card img {
+::-webkit-scrollbar-thumb {
+  background: #ff4757;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b7c;
+}
+/* Estilos para o input de link personalizado */
+.custom-playlist {
+  background: rgba(37, 37, 37, 0.5);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #333;
+}
+
+.custom-playlist h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  color: #ff4757;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.url-input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #ff4757;
+  background: #252525;
+}
+
+.url-input::placeholder {
+  color: #666;
+}
+
+.load-btn {
+  background: linear-gradient(135deg, #ff4757, #ff6b7c);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.load-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.helper-text {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 60px);
+  height: 1px;
+  background: #333;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: #0d0d0d;
+  padding: 0 15px;
+  color: #666;
+  font-size: 0.8rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .load-btn {
+    width: 100%;
+  }
+
+  .divider::before,
+  .divider::after {
+    width: calc(50% - 40px);
+  }
+}
+/* Estilo para fallback */
+#youtube-player iframe {
   width: 100%;
-  height: 120px;
-  object-fit: cover;
+  height: 100%;
+  min-height: 300px;
+}
+
+/* Mensagem de erro */
+.player-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
 }
