@@ -50,7 +50,16 @@ body {
   text-align: center;
   margin-bottom: 2rem;
 }
-
+.task-list {
+  font-size: 0.9rem;
+  color: #aaa;
+  list-style: none;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
 .pomodoro-header h1 {
   font-size: 2rem;
   background: linear-gradient(135deg, #fff, #ff4757);
@@ -206,7 +215,23 @@ body {
   margin-top: 1rem;
   flex-wrap: wrap;
 }
-
+#add-task-btn {
+  background: linear-gradient(135deg, #ff4757, #ff6b7c);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+#add-task-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
 #start-button {
   background: linear-gradient(135deg, #ff4757, #ff6b7c);
   color: white;
@@ -274,6 +299,16 @@ body {
 .category-btn:hover {
   background: #333;
   transform: translateY(-2px);
+}
+
+#foco:houver {
+  background: #ff6b7c;
+  box-shadow: 0 4px 12px rgba(255, 107, 124, 0.3);
+}
+
+#foco {
+  background: #ff4757;
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
 }
 
 .category-btn.active {
@@ -380,7 +415,10 @@ body {
     flex-direction: column;
     align-items: center;
   }
-
+  #add-task-btn {
+    width: 100%;
+    max-width: 300px;
+  }
   #start-button,
   #reset-button {
     width: 200px;
@@ -513,7 +551,14 @@ body {
   color: #666;
   margin-top: 0.5rem;
 }
-
+.tasklist-container {
+  background: rgba(37, 37, 37, 0.5);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border: 1px solid #333;
+}
 .divider {
   text-align: center;
   margin: 1.5rem 0;

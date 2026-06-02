@@ -1,3 +1,7 @@
+const addtask = document.getElementById("add-task-btn");
+const tasklist = [];
+
+const audio = new Audio("./assets/sons/universfield-notification.mp3");
 const startButton = document.getElementById("start-button");
 const resetButton = document.getElementById("reset-button");
 
@@ -58,11 +62,6 @@ function showBreakCard() {
    DISPLAY DO TIMER
 ========================= */
 
-function updateTimeLabels() {
-  workLabel.textContent = `${workDurationDefault / 60} min`;
-  breakLabel.textContent = `${breakDurationDefault / 60} min`;
-}
-
 function updateMainDisplay() {
   const currentDuration = isWorkTime ? workDuration : breakDuration;
   const minutes = Math.floor(currentDuration / 60);
@@ -90,15 +89,76 @@ function updateButtonState() {
     startButton.innerHTML = "▶ Iniciar";
   }
 }
+/* =========================
+   ADICIONAR TAREFA
+========================= */
+/*function addTask() {
+  const taskText = prompt("Digite a tarefa:");
+  if (taskText) {
+    tasklist.push(taskText);
+    document.getElementById("task-list").innerHTML = tasklist
+      .map((task) => `<li id= "task"><input type="checkbox" /> ${task} </li>`)
+      .join("");
+  }
+  updateMainDisplay();
+  console.log(tasklist);
+}
 
+addtask.addEventListener("click", addTask);*/
+
+// Supondo que sua lista comece assim:
+
+function addTask() {
+  const taskText = prompt("Digite a tarefa:");
+  if (taskText) {
+    tasklist.push(taskText);
+
+    // IMPORTANTE: Removi o id="task" repetido, pois IDs devem ser únicos. Usei uma classe.
+    document.getElementById("task-list").innerHTML = tasklist
+      .map(
+        (task) =>
+          `<li class="task-item"><input type="checkbox" /> <span>${task}</span></li>`,
+      )
+      .join("");
+  }
+  updateMainDisplay();
+  console.log(tasklist);
+}
+
+// --- SEGUNDO EVENTO (Escutando as mudanças nos checkboxes) ---
+const taskListContainer = document.getElementById("task-list");
+
+taskListContainer.addEventListener("change", function (event) {
+  // Verifica se o elemento que mudou de estado é um checkbox
+  if (event.target.type === "checkbox") {
+    const checkbox = event.target;
+    const taskTextElement = checkbox.nextElementSibling; // Pega o <span> com o texto
+
+    if (checkbox.checked) {
+      console.log("Tarefa marcada como concluída!");
+      taskTextElement.style.textDecoration = "line-through"; // Risca o texto (opcional)
+      taskTextElement.style.color = "gray";
+    } else {
+      console.log("Tarefa desmarcada!");
+      taskTextElement.style.textDecoration = "none";
+      taskTextElement.style.color = "black";
+    }
+
+    // Se precisar rodar a sua função de atualização aqui também:
+    updateMainDisplay();
+  }
+});
+
+// Evento do botão de adicionar
+addtask.addEventListener("click", addTask);
 /* =========================
    TROCA DE CICLO
 ========================= */
 
 function switchToBreak() {
   isWorkTime = false;
-  breakDuration = breakDurationDefault;
 
+  breakDuration = breakDurationDefault;
   updateModeDisplay();
   updateMainDisplay();
   showBreakCard();
@@ -117,6 +177,7 @@ function switchToBreak() {
 
 function switchToWork() {
   isWorkTime = true;
+
   workDuration = workDurationDefault;
 
   updateModeDisplay();
@@ -155,6 +216,7 @@ function startTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
         isRunning = false;
+        audio.play();
         switchToBreak();
         startTimer();
       }
@@ -166,6 +228,7 @@ function startTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
         isRunning = false;
+        audio.play();
         switchToWork();
         startTimer();
       }
@@ -241,7 +304,6 @@ function selecionarPausaCurta() {
     breakDuration = breakDurationDefault;
     updateMainDisplay();
   }
-  updateTimeLabels();
 }
 
 // Função para selecionar Pausa Longa (sem duplicação)
@@ -262,7 +324,6 @@ function selecionarPausaLonga() {
     breakDuration = breakDurationDefault;
     updateMainDisplay();
   }
-  updateTimeLabels();
 }
 
 function increaseWorkDuration() {
@@ -270,7 +331,6 @@ function increaseWorkDuration() {
     workDuration += 60;
     workDurationDefault = workDuration;
     updateMainDisplay();
-    updateTimeLabels();
   }
 }
 
@@ -279,7 +339,6 @@ function decreaseWorkDuration() {
     workDuration -= 60;
     workDurationDefault = workDuration;
     updateMainDisplay();
-    updateTimeLabels();
   }
 }
 
@@ -287,7 +346,7 @@ function increaseBreakDuration() {
   if (!isRunning) {
     breakDuration += 60;
     breakDurationDefault = breakDuration;
-    updateTimeLabels();
+
     if (!isWorkTime) {
       updateMainDisplay();
     }
@@ -298,7 +357,7 @@ function decreaseBreakDuration() {
   if (!isRunning && breakDuration > 60) {
     breakDuration -= 60;
     breakDurationDefault = breakDuration;
-    updateTimeLabels();
+
     if (!isWorkTime) {
       updateMainDisplay();
     }
@@ -308,40 +367,6 @@ function decreaseBreakDuration() {
 /* =========================
    YOUTUBE PLAYER - VERSÃO ESTÁVEL
 ========================= */
-
-// IDs de vídeos estáveis e funcionais (música sem direitos autorais)
-const stableVideos = {
-  lofi: {
-    name: "Lofi Hip Hop",
-    videoId: "jfKfPfyJRdk",
-    embedUrl:
-      "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&loop=1&playlist=jfKfPfyJRdk",
-  },
-  classical: {
-    name: "Música Clássica",
-    videoId: "hT2OqQwoU_M",
-    embedUrl:
-      "https://www.youtube.com/embed/hT2OqQwoU_M?autoplay=1&loop=1&playlist=hT2OqQwoU_M",
-  },
-  rock: {
-    name: "Rock Instrumental",
-    videoId: "Z8ZcP7Z8Z8M",
-    embedUrl:
-      "https://www.youtube.com/embed/Z8ZcP7Z8Z8M?autoplay=1&loop=1&playlist=Z8ZcP7Z8Z8M",
-  },
-  jazz: {
-    name: "Jazz Suave",
-    videoId: "DsgAxeXtXkE",
-    embedUrl:
-      "https://www.youtube.com/embed/DsgAxeXtXkE?autoplay=1&loop=1&playlist=DsgAxeXtXkE",
-  },
-  nature: {
-    name: "Sons da Natureza",
-    videoId: "eFjjQkz_Z7M",
-    embedUrl:
-      "https://www.youtube.com/embed/eFjjQkz_Z7M?autoplay=1&loop=1&playlist=eFjjQkz_Z7M",
-  },
-};
 
 // Função para extrair ID do vídeo de qualquer URL do YouTube
 function extractVideoId(url) {
@@ -435,13 +460,6 @@ function loadYouTubeContent(url, isCustom = false, categoryName = null) {
   return true;
 }
 
-// Carregar playlist padrão
-function loadDefaultPlaylist(category) {
-  const config = stableVideos[category];
-  if (!config) return;
-  loadYouTubeContent(config.embedUrl, false, config.name);
-}
-
 // Carregar playlist personalizada
 function loadCustomPlaylist() {
   let url = playlistUrlInput.value.trim();
@@ -478,9 +496,10 @@ function setupCategoryButtons() {
 }
 
 // Fallback
+//adicionar apenas caso a função de carregar o vídeo falhe, para evitar que o usuário fique com um container vazio sem entender o motivo
 function fallbackAudio() {
   const container = document.getElementById("youtube-player");
-  if (container && container.innerHTML.trim() === "") {
+  if (loadYouTubeContent() === false) {
     container.innerHTML = `
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #1a1a1a; border-radius: 12px; padding: 20px;">
                 <p style="color: #ff4757; margin-bottom: 10px;">⚠️ Não foi possível carregar o vídeo</p>
@@ -524,7 +543,7 @@ function init() {
   updateMainDisplay();
   updateModeDisplay();
   updateButtonState();
-  updateTimeLabels();
+
   showWorkCard();
   setupCategoryButtons();
 
@@ -532,9 +551,7 @@ function init() {
   pausa_curta.classList.add("active");
   pausa_longa.classList.remove("active");
 
-  setTimeout(() => {
-    loadDefaultPlaylist("lofi");
-  }, 500);
+  setTimeout(() => {}, 500);
 
   setTimeout(fallbackAudio, 5000);
 }
