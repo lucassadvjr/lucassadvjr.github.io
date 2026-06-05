@@ -106,23 +106,57 @@ function updateButtonState() {
 
 addtask.addEventListener("click", addTask);*/
 
+function addTask() {
+  const taskText = prompt("Digite a tarefa:");
+
+  if (taskText) {
+    tasklist.push({
+      text: taskText,
+      done: false,
+    });
+  }
+}
+
 // Supondo que sua lista comece assim:
+
+function renderTasks() {
+  document.getElementById("task-list").innerHTML = tasklist
+    .map(
+      (task, index) => `
+        <li class="task-item">
+          <input
+            type="checkbox"
+            data-index="${index}"
+            ${task.done ? "checked disabled" : ""}
+          />
+          <span>${task.text}</span>
+        </li>
+      `,
+    )
+    .join("");
+}
+
+document.getElementById("task-list").addEventListener("change", (e) => {
+  if (e.target.type === "checkbox") {
+    const index = e.target.dataset.index;
+
+    tasklist[index].done = true;
+
+    renderTasks();
+  }
+});
 
 function addTask() {
   const taskText = prompt("Digite a tarefa:");
-  if (taskText) {
-    tasklist.push(taskText);
 
-    // IMPORTANTE: Removi o id="task" repetido, pois IDs devem ser únicos. Usei uma classe.
-    document.getElementById("task-list").innerHTML = tasklist
-      .map(
-        (task) =>
-          `<li class="task-item"><input type="checkbox" /> <span>${task}</span></li>`,
-      )
-      .join("");
+  if (taskText) {
+    tasklist.push({
+      text: taskText,
+      done: false,
+    });
+
+    renderTasks();
   }
-  updateMainDisplay();
-  console.log(tasklist);
 }
 
 // --- SEGUNDO EVENTO (Escutando as mudanças nos checkboxes) ---
@@ -401,7 +435,7 @@ function loadYouTubeContent(url, isCustom = false, categoryName = null) {
   const playlistId = extractPlaylistId(url);
 
   if (playlistId) {
-    embedUrl = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1&loop=1&enablejsapi=1`;
+    embedUrl = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1&loop=1&playlist=${playlistId}&enablejsapi=1`;
     displayName = "Playlist Personalizada";
   } else {
     let videoId = extractVideoId(url);
@@ -479,22 +513,6 @@ function loadCustomPlaylist() {
   }
 }
 
-// Configurar botões de categoria
-function setupCategoryButtons() {
-  const buttons = document.querySelectorAll(".category-btn");
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const category = button.getAttribute("data-category");
-
-      buttons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      loadDefaultPlaylist(category);
-    });
-  });
-}
-
 // Fallback
 //adicionar apenas caso a função de carregar o vídeo falhe, para evitar que o usuário fique com um container vazio sem entender o motivo
 function fallbackAudio() {
@@ -545,7 +563,6 @@ function init() {
   updateButtonState();
 
   showWorkCard();
-  setupCategoryButtons();
 
   // Garantir que Pausa Curta seja o padrão (ativa e vermelha)
   pausa_curta.classList.add("active");
