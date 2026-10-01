@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101411" />
+  <meta name="description" content="Seu espaço para focar: timer Pomodoro, tarefas e música em um só lugar." />
+  <title>Pomodoro — Um passo de cada vez</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◴</span> pomodoro<span class="brand-dot">.</span></a>
+      <span class="topbar-note">MENOS DISTRAÇÃO. MAIS PRESENÇA.</span>
+      <button id="focus-view" class="quiet-button" aria-pressed="false">⛶ <span>Modo imersivo</span></button>
+    </header>
+    <main>
+      <section class="intro"><div><p class="eyebrow">SEU ESPAÇO DE FOCO</p><h1>Um passo de cada vez<span>.</span></h1><p>Escolha uma tarefa, respire fundo e comece.</p></div><span class="today" id="today"></span></section>
+      <div class="dashboard">
+        <section class="timer-panel panel" aria-label="Temporizador Pomodoro">
+          <div class="panel-heading"><span class="eyebrow">TEMPO PARA O QUE IMPORTA</span><span class="status-badge" id="status-badge">Pronto para começar</span></div>
+          <div class="mode-selector" aria-label="Modo do temporizador">
+            <button id="foco" data-mode="focus" class="active" aria-pressed="true">Foco</button>
+            <button id="pausa_curta" data-mode="short" aria-pressed="false">Pausa curta</button>
+            <button id="pausa_longa" data-mode="long" aria-pressed="false">Pausa longa</button>
+          </div>
+          <div class="timer-stage">
+            <svg class="progress-ring" viewBox="0 0 320 320" aria-hidden="true"><circle class="ring-track" cx="160" cy="160" r="146"/><circle id="ring-progress" class="ring-progress" cx="160" cy="160" r="146"/></svg>
+            <div class="timer-content"><span class="timer-caption" id="mode-caption">HORA DE FOCAR</span><div id="timer-work" class="timer-digits" role="timer" aria-label="Tempo restante">25:00</div><span id="timer-message">Você só precisa começar.</span></div>
+          </div>
+          <div class="duration-controls"><button id="duration-decrease" aria-label="Diminuir duração em um minuto">−</button><span id="duration-label">25 minutos por sessão</span><button id="duration-increase" aria-label="Aumentar duração em um minuto">+</button></div>
+          <div class="actions"><button id="start-button" class="primary-button">▶ Iniciar foco</button><button id="reset-button" class="reset-button" aria-label="Reiniciar temporizador">↻</button></div>
+          <p class="keyboard-hint"><kbd>Espaço</kbd> para iniciar ou pausar</p>
+          <div class="session-footer"><div><span class="session-dots" id="session-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="session-label">Sessão 1 de 4</span></div><span>Uma pausa longa a cada 4 focos</span></div>
+        </section>
+        <aside class="side-panel">
+          <section class="tasks-panel panel" aria-labelledby="tasks-title"><div class="panel-heading"><h2 id="tasks-title">Seu próximo passo</h2><span id="task-count" class="count-badge">0/0</span></div><p class="section-description">Tire da cabeça. Coloque aqui.</p>
+            <form id="task-form" class="input-group"><label class="sr-only" for="task-input">Nova tarefa</label><input id="task-input" maxlength="180" placeholder="O que você quer realizar?" autocomplete="off" required/><button id="add-task-btn" type="submit" aria-label="Adicionar tarefa">+</button></form>
+            <ul id="task-list" class="task-list"></ul><div id="tasks-empty" class="empty-state"><span aria-hidden="true">✓</span><p>Abra espaço para uma ideia.</p><small>Adicione sua primeira tarefa acima.</small></div>
+            <div class="task-progress"><div id="task-progress-bar"></div></div><p id="task-summary" class="helper-text">Cada pequeno passo conta.</p>
+          </section>
+          <section class="music-panel panel" aria-labelledby="music-title"><div class="panel-heading"><h2 id="music-title">Sua trilha de foco</h2><span class="music-icon" aria-hidden="true">♫</span></div><p class="section-description">Um som para entrar no ritmo.</p>
+            <form id="playlist-form" class="input-group"><label class="sr-only" for="playlist-url">Link do vídeo ou playlist do YouTube</label><input id="playlist-url" placeholder="Cole um link do YouTube" type="text" required/><button id="load-playlist-btn" type="submit" aria-label="Carregar vídeo ou playlist">↗</button></form>
+            <p id="playlist-feedback" class="helper-text" role="status">Vídeos e playlists. Você controla o play.</p>
+            <div id="youtube-player" class="player-placeholder"><span aria-hidden="true">♫</span><p>O seu ritmo, o seu espaço.</p><small>Adicione uma trilha para acompanhar.</small></div>
+            <a id="youtube-external" class="external-link" hidden target="_blank" rel="noopener noreferrer">Abrir no YouTube ↗</a>
+          </section>
+          <div class="daily-stats"><span class="stat-icon" aria-hidden="true">↗</span><div><strong id="completed-sessions">0 sessões</strong><span>de foco concluídas hoje</span></div><span class="stats-note">O progresso vem da constância.</span></div>
+        </aside>
+      </div>
+    </main>
+    <footer class="page-footer"><span>Feito para desacelerar e realizar.</span><span>Foque. Respire. Repita.</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
